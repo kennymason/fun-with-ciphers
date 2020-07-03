@@ -16,6 +16,7 @@ string shift(string txt, int shift){
     char c = txt[i];
     if(isalpha(c)){
       if (c >= 'a' && c <= 'z') offset = 'a';
+      if(shift < 0) offset += 25;
       ret += (c - offset + shift) % 26 + offset;
     } else{
       alpha = false;
