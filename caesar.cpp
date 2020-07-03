@@ -1,16 +1,68 @@
 // Author: Kenneth Mason
+// Caesar Cipher
 #include <iostream>
+#include <string>
+#include <limits>
 using namespace std;
 
+bool alpha = true;
 
-
-int main(int argc, char *argv[]) {
-  // Takes a numerical key and a string to be encoded as input. A negative key denotes a left-shift
-  if(argc != 3){
-    cout << "Expected 2 arguments: an integer key and an input string" << endl;
-    return 1;
+string shift(string txt, int shift){
+  // Shifts each alphabetic character by k % 26, all others remain the same
+  string ret = "";
+  unsigned int i;
+  for(i = 0; i < txt.length(); i++){
+    char offset = 'A';
+    char c = txt[i];
+    if(isalpha(c)){
+      if (c >= 'a' && c <= 'z') offset = 'a';
+      ret += (c - offset + shift) % 26 + offset;
+    } else{
+      alpha = false;
+      ret += c;
+    }
   }
+  return ret;
+}
 
+int main() {
+  // Takes a numerical key and a string to be encoded as input. A negative key denotes a left-shift
+  string ptext;
+  int key;
+  bool valid = false;
+  bool again = false;
+  string c = "n";
+  cout << "**** Caesar Cipher ****" << endl;
+  do {
+    cout << "Plaintext to be encoded: ";
+    getline(cin, ptext);
+    while(!valid){
+      cout << "Integer encryption key: ";
+      cin >> key;
+      if(key == 0){
+        cerr << "Please enter a valid non-zero key" << endl;
+      }else{
+        valid = true;
+      }
+    }
 
+    cout << "Ciphertext: " << shift(ptext, key) << endl;
+    if(!alpha){
+      cout << "Warning: This text contains the non-alphabetic characters. Only alphabetic characters will be shifted during encryption" << endl;
+    }
+    // Informs user that they can decode with negated keys. Only prints if 'again' bool is false so the user only sees notification once.
+    if(!again) cout << "Note: Ciphertext encoded with key k can be decoded with key -k" << endl;
+
+    cout << "Again? (y/n): ";
+    cin >> c;
+    if(c == "Y" || c == "y" || c == "Yes" || c == "yes"){
+      again = true;
+      valid = false;
+      // Clears newline characters from input buffer
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    } else{
+      again = false;
+    }
+  } while(again);
   return 0;
 }
