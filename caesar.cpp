@@ -30,21 +30,17 @@ int main() {
   // Takes a numerical key and a string to be encoded as input. A negative key denotes a left-shift
   string ptext;
   int key;
-  bool valid = false;
   bool again = false;
   string c = "n";
   cout << "**** Caesar Cipher ****" << endl;
   do {
     cout << "Plaintext to be encoded: ";
     getline(cin, ptext);
-    while(!valid){
-      cout << "Integer encryption key: ";
-      cin >> key;
-      if(key == 0){
-        cerr << "Please enter a valid non-zero key" << endl;
-      }else{
-        valid = true;
-      }
+    cout << "Integer encryption key: ";
+    cin >> key;
+    if(key == 0){
+      cerr << "Only non-zero integer keys are valid" << endl;
+      return 1;
     }
 
     cout << "Ciphertext: " << shift(ptext, key) << endl;
@@ -58,7 +54,6 @@ int main() {
     cin >> c;
     if(c == "Y" || c == "y" || c == "Yes" || c == "yes"){
       again = true;
-      valid = false;
       // Clears newline characters from input buffer
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
     } else{
