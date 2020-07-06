@@ -46,6 +46,7 @@ int main() {
     cout << "Ciphertext: " << shift(ptext, key) << endl;
     if(!alpha){
       cout << "Warning: This text contains the non-alphabetic characters. Only alphabetic characters will be shifted during encryption" << endl;
+      alpha = true;
     }
     // Informs user that they can decode with negated keys. Only prints if 'again' bool is false so the user only sees notification once.
     if(!again) cout << "Note: Ciphertext encoded with key k can be decoded with key -k" << endl;

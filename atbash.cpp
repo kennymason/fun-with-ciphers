@@ -1,5 +1,5 @@
 // Author: Kenneth Mason
-// ROT13 Cipher
+// Atbash Cipher
 #include <iostream>
 #include <string>
 #include <limits>
@@ -7,18 +7,18 @@ using namespace std;
 
 bool alpha = true;
 
-string rot(string txt){
-  // Shifts each alphabetic character by 13, all others remain the same
-  int shift = 13;
+string atbash(string txt){
+  // Substitutes each alphabetic character with it's reverse, non-letter characters remain the same
+  // a -> z; b -> y; etc.
+
   string ret = "";
   unsigned int i;
   for(i = 0; i < txt.length(); i++){
-    char offset = 'A';
+    char offset = 'A' + 'Z';
     char c = txt[i];
     if(isalpha(c)){
-      if (c >= 'a' && c <= 'z') offset = 'a';
-      if(shift < 0) offset += 25;
-      ret += (c - offset + shift) % 26 + offset;
+      if (c >= 'a' && c <= 'z') offset = 'a' + 'z';
+      ret += offset - c;
     } else{
       alpha = false;
       ret += c;
@@ -31,13 +31,13 @@ int main() {
   string ptext;
   bool again = false;
   string c = "n";
-  cout << "**** ROT13 ****" << endl;
+  cout << "**** Atbash Cipher ****" << endl;
   do {
     cout << "Plaintext to be encoded: ";
     getline(cin, ptext);
-    cout << "Ciphertext: " << rot(ptext) << endl;
+    cout << "Ciphertext: " << atbash(ptext) << endl;
     if(!alpha){
-      cout << "Warning: This text contains the non-alphabetic characters. Only alphabetic characters will be shifted during encryption" << endl;
+      cout << "Warning: This text contains the non-alphabetic characters. Only alphabetic characters will be encrypted" << endl;
       alpha = true;
     }
 
